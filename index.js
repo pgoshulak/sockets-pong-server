@@ -53,7 +53,7 @@ wss.on('connection', (ws) => {
   ws.on('message', (receivedData) => {
     const data = JSON.parse(receivedData)
     // Broadcast player moves to all players
-    if (data.type === 'P0' || data.type === 'P1' || data.type === 'BALL') {
+    if (data.type === 'P0' || data.type === 'P1' || data.type === 'BALL' || data.type === 'WIN') {
       wss.clients.forEach(function each(client) {
         if (client != ws) {
           client.send(receivedData)
