@@ -33,7 +33,7 @@ wss.assignPlayers = () => {
     }))
     playerNum++
   })
-  log('wss.playerNums = ', wss.playerNums)
+  // log('wss.playerNums = ', wss.playerNums)
 }
 
 const totalClients = (wss) => wss.clients.size;
@@ -53,9 +53,11 @@ wss.on('connection', (ws) => {
   ws.on('message', (receivedData) => {
     const data = JSON.parse(receivedData)
     // Broadcast player moves to all players
-    if (data.type === 'P0' || data.type === 'P1') {
+    if (data.type === 'P0' || data.type === 'P1' || data.type === 'BALL') {
       wss.clients.forEach(function each(client) {
-        client.send(receivedData)
+        if (client != ws) {
+          client.send(receivedData)
+        }
       })
     }
 
